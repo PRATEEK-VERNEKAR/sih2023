@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
-import {DOMAIN} from '../../../utils/consts'
+import { DOMAIN } from '../../../utils/consts'
 
 export default function UserRegistration() {
   const [formData, setFormData] = useState({
@@ -53,10 +53,7 @@ export default function UserRegistration() {
     console.log(data)
     formData['govtBodies'] = data
     try {
-      const response = await axios.post(
-        `${DOMAIN}/api/newRegion`,
-        formData
-      )
+      const response = await axios.post(`${DOMAIN}/api/newRegion`, formData)
 
       if (response.data.success) {
         console.log('Registration successful!')
@@ -137,9 +134,10 @@ export default function UserRegistration() {
                 className="w-full flex flex-row gap-x-3"
                 style={{ padding: '2px' }}
               >
-                {stateArray.map((element) => {
+                {stateArray.map((element, key) => {
                   return (
                     <div
+                      key={key}
                       className="block"
                       style={{
                         fontSize: '0.7em',
@@ -186,9 +184,10 @@ export default function UserRegistration() {
                 className="w-full flex flex-row gap-x-3"
                 style={{ padding: '2px' }}
               >
-                {countryArray.map((element) => {
+                {countryArray.map((element, key) => {
                   return (
                     <div
+                      key={key}
                       className="block"
                       style={{
                         fontSize: '0.7em',
@@ -218,54 +217,54 @@ export default function UserRegistration() {
             </div>
 
             <div className="text-bold text-lg w-full">Thresholds</div>
-        <div className="flex flex-row nform-input">
-          <label>Road</label>
-          <input
-            type="text"
-            id="roads"
-            name="roads"
-            value={formData.roads}
-            onChange={handleInputChange}
-            required
-            className="w-full outline-none transparent"
-          />
-        </div>
-        <div className="flex flex-row nform-input">
-          <label>Building</label>
-          <input
-            type="text"
-            id="bulding"
-            name="bulding"
-            value={formData.buildings}
-            onChange={handleInputChange}
-            required
-            className="w-full outline-none transparent"
-          />
-        </div>
-        <div className="flex flex-row nform-input">
-          <label>Vehicle</label>
-          <input
-            type="text"
-            id="vehicles"
-            name="vehicles"
-            value={formData.vehicles}
-            onChange={handleInputChange}
-            required
-            className="w-full outline-none transparent"
-          />
-        </div>
-        <div className="flex flex-row nform-input">
-          <label>Aircraft</label>
-          <input
-            type="text"
-            id="aircraft"
-            name="aircraft"
-            value={formData.aircraft}
-            onChange={handleInputChange}
-            required
-            className="w-full outline-none transparent"
-          />
-        </div>
+            <div className="flex flex-row nform-input">
+              <label>Road</label>
+              <input
+                type="text"
+                id="roads"
+                name="roads"
+                value={formData.roads}
+                onChange={handleInputChange}
+                required
+                className="w-full outline-none transparent"
+              />
+            </div>
+            <div className="flex flex-row nform-input">
+              <label>Building</label>
+              <input
+                type="text"
+                id="bulding"
+                name="bulding"
+                value={formData.buildings}
+                onChange={handleInputChange}
+                required
+                className="w-full outline-none transparent"
+              />
+            </div>
+            <div className="flex flex-row nform-input">
+              <label>Vehicle</label>
+              <input
+                type="text"
+                id="vehicles"
+                name="vehicles"
+                value={formData.vehicles}
+                onChange={handleInputChange}
+                required
+                className="w-full outline-none transparent"
+              />
+            </div>
+            <div className="flex flex-row nform-input">
+              <label>Aircraft</label>
+              <input
+                type="text"
+                id="aircraft"
+                name="aircraft"
+                value={formData.aircraft}
+                onChange={handleInputChange}
+                required
+                className="w-full outline-none transparent"
+              />
+            </div>
 
             <div className="flex flex-row nform-input">
               <label htmlFor="password">Length</label>

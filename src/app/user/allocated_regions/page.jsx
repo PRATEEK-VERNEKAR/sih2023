@@ -40,7 +40,7 @@ export default function UserDashboard() {
 
   useEffect(() => {
     const workUseffect = async () => {
-      if (token) {
+      if (USER_TOKEN) {
         await fetchUserByToken(token)
       } else {
         router.push('/login')

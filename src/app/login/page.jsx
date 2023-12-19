@@ -25,6 +25,8 @@ export default function LoginForm() {
   const [firstStepDone, setFirstStepDone] = useState(false)
   const [startTimer, setStartTimer] = useState(false)
   const [seconds, setSeconds] = useState(0)
+  const router = useRouter()
+
 
   const [token, setToken] = useState(USER_TOKEN)
 
@@ -53,7 +55,6 @@ export default function LoginForm() {
     }
   }, [startTimer])
 
-  const router = useRouter()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -112,12 +113,11 @@ export default function LoginForm() {
           expires: expirationDate,
         })
 
-        toast.success('Successfully toasted!')
+        toast.success('Successfully Login!')
         let userDashBoardURL = `/user/allocated_regions`
         console.log(secondFormData)
         router.push(userDashBoardURL)
 
-        // router.push(userDashBoardURL)
       }
     } catch (error) {
       console.log('Error in otp verification')

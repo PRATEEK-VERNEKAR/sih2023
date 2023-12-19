@@ -5,10 +5,10 @@ import { NextResponse } from "next/server";
 export async function POST(req,res){
     try{
         await connect();
-        const {regionID,name,states,neighborCountry,area,borderLength,govtBodies,roads,buildings,aircrafts,vehicles}=await req.json();
-        const thershold = [buildings,0,roads,vehicles,aircrafts]
+        const {regionID,name,states,neighborCountry,area,borderLength,govtBodies,aircrafts,buildings,roads,vehicles}=await req.json();
         
-        const newRegion=new Border({regionID,name,states,neighborCountry,area,borderLength,govtBodies,thershold});
+        const newRegion=new Border({regionID,name,states,neighborCountry,area,borderLength,govtBodies,threshold:[buildings,0,roads,vehicles,0,aircrafts]});
+
 
         const savedNewRegion = await newRegion.save()
 

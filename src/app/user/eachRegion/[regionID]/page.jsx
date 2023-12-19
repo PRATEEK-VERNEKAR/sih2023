@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import { USER_TOKEN } from '@/utils/consts'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { DOMAIN } from '../../../../utils/consts';
+import { Suspense, useEffect, useState } from 'react'
+import Loading from "./Loading"
 
 const BinaryImageDisplay = ({ binaryImageData, mimeType }) => {
   const [dataURL, setDataURL] = useState('')
@@ -20,7 +20,7 @@ const BinaryImageDisplay = ({ binaryImageData, mimeType }) => {
     setDataURL(newDataURL)
   }, [binaryImageData, mimeType])
 
-  return <img src={dataURL} alt="Binary Image" />
+  return <img src={dataURL} width={256} height={256} alt="Binary Image" />
 }
 
 export default function MonitorEachRegion({ params }) {
@@ -45,7 +45,7 @@ export default function MonitorEachRegion({ params }) {
 
     try {
       const monitoredRegionInfo = await axios.get(
-        `${DOMAIN}/api/monitorEachRegion/${params.regionID}`,
+        `http://localhost:3000/api/monitorEachRegion/${params.regionID}`,
         {
           headers: {
             Authorization: `Bearer ${USER_TOKEN}`,
@@ -75,26 +75,30 @@ export default function MonitorEachRegion({ params }) {
       {
         (loaded)?(currentRegion.map((data, index) => {
           return (
-            <div key={index} className='flex flex-col' style={{width:"256px",borderRadius:"8px",overflow:"hidden"}}>
-              {/* <p>{data.image.data}</p> */}
-              {
-                data.image.data.data &&
-                // <BinaryImageDisplay binaryImageData={Uint8Array.from(data.image.data.data)} mimeType='image/jpg' />
-                <Image src='/1.png' width={256} height={256} className='w-[256px]' />
-              }
-              <div>{data.dateTime}</div>
-              <div className='flex flex-row flex-wrap justify-between gap-x-2 gap-y-2' style={{padding:"8px"}}>
-                <div className='flex flex-row' style={{...pram}} ><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/aircraft.svg" width={24} height={24} className='block' alt="Aircraft" /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,0)}</span></div></div>
-                <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/building.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,1)}</span></div></div>
-                <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/grounds.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,2)}</span></div></div>
-                <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/road.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,3)}</span></div></div>
-                <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/vehicle.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,4)}</span></div></div>
-                <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/water.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,5)}</span></div></div>
+            <Suspense fallback={<Loading />}>
+                <div key={index} className='flex flex-col' style={{width:"256px",borderRadius:"8px",overflow:"hidden"}}>
+                {/* <p>{data.image.data}</p> */}
+                {
+                  data.image.data.data &&
+                  // <BinaryImageDisplay binaryImageData={Uint8Array.from(data.image.data.data)} mimeType='image/jpg' />
+                  <Image src='/1.png' width={256} height={256} className='w-[256px]' />
+                }
+                <div>{data.dateTime}</div>
+                <div className='flex flex-row flex-wrap justify-between gap-x-2 gap-y-2' style={{padding:"8px"}}>
+                  <div className='flex flex-row' style={{...pram}} ><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/aircraft.svg" width={24} height={24} className='block' alt="Aircraft" /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,0)}</span></div></div>
+                  <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/building.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,1)}</span></div></div>
+                  <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/grounds.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,2)}</span></div></div>
+                  <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/road.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,3)}</span></div></div>
+                  <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/vehicle.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,4)}</span></div></div>
+                  <div className='flex flex-row' style={{...pram}}><div style={{...parm1}} className='flex flex-row items-center justify-center'><Image src="/water.svg" width={24} height={24} alt="Aircraft" className='block' /></div><div className='flex flex-row items-center'><span className='block'>{countOccurances(data.classes,5)}</span></div></div>
+                </div>
               </div>
-            </div>
+            </Suspense>
           )
         })):(
-          <div></div>
+          <div>
+
+          </div>
         )
       }
     </div>

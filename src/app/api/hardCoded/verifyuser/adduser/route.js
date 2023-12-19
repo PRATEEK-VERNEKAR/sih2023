@@ -40,7 +40,6 @@ export async function POST(req) {
     return NextResponse.json({
       message: 'Successfully added',
       success: true,
-      token,
     })
   } catch (err) {
     console.log(err)

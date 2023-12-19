@@ -6,6 +6,7 @@ import axios from 'axios'
 import { Suspense, useEffect, useState } from 'react'
 import Loading from './Loading'
 
+
 const BinaryImageDisplay = ({ binaryImageData, mimeType }) => {
   const [dataURL, setDataURL] = useState('')
 

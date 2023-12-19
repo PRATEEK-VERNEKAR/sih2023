@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Loading(){
 
     const pram = {width:"56px",boxShadow:"0 0 15px 2px #323643",borderRadius:"8px",columnGap:"4px"};

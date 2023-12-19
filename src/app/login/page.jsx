@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-import { DOMAIN, USER_TOKEN } from '../../utils/consts'
+import { USER_TOKEN } from '../../utils/consts'
 
 export default function LoginForm() {
   const [firstFormData, setFirstFormData] = useState({
@@ -71,7 +71,7 @@ export default function LoginForm() {
 
     try {
       const response = await axios.post(
-        `${DOMAIN}/api/hardCoded/verifyuser/verifyemployee`,
+        'http://localhost:3000/api/hardCoded/verifyuser/verifyemployee',
         firstFormData
       )
 
@@ -102,7 +102,7 @@ export default function LoginForm() {
       console.log(secondFormData.email)
       console.log(OTP)
       const optResponse = await axios.post(
-        `${DOMAIN}/api/hardCoded/verifyuser/otpverify`,
+        'http://localhost:3000/api/hardCoded/verifyuser/otpverify',
         { email: secondFormData.email, otp: OTP }
       )
 

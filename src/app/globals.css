@@ -352,5 +352,9 @@ footer div{
 
 .eachRegion{
   width:786px;
-  background-color:white;
+}
+
+.user{
+  background-color: #606470c3;
+  padding: 16px 32px 16px 32px;
 }

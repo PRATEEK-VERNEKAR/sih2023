@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { USER_TOKEN } from '@/utils/consts'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { DOMAIN } from '../../../../utils/consts';
 
 const BinaryImageDisplay = ({ binaryImageData, mimeType }) => {
   const [dataURL, setDataURL] = useState('')
@@ -44,7 +45,7 @@ export default function MonitorEachRegion({ params }) {
 
     try {
       const monitoredRegionInfo = await axios.get(
-        `http://localhost:3000/api/monitorEachRegion/${params.regionID}`,
+        `${DOMAIN}/api/monitorEachRegion/${params.regionID}`,
         {
           headers: {
             Authorization: `Bearer ${USER_TOKEN}`,

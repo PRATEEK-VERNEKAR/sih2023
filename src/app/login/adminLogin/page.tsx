@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { DOMAIN } from '@/utils/consts';
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -23,10 +24,10 @@ export default function AdminLogin() {
 
     try {
       
-      const response = await axios.post('http://localhost:3000/api/hardCoded/verifyuser/verifyadmin', formData);
+      const response = await axios.post(`${DOMAIN}/api/hardCoded/verifyuser/verifyadmin`, formData);
 
       if (response.data.success) {
-        router.push('http://localhost:3000/admin/');
+        router.push(`${DOMAIN}/admin/`);
       } else {
         console.error('Login failed:', response.data.message);
     

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
+import { DOMAIN } from '../../../utils/consts';
 
 export default function UserRegistration() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ export default function UserRegistration() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/hardCoded/verifyuser/adduser', formData);
+      const response = await axios.post(`${DOMAIN}/api/hardCoded/verifyuser/adduser`, formData);
 
       if (response.data.success) {
         console.log('Registration successful!');

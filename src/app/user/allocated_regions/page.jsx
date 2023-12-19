@@ -5,6 +5,7 @@ import { useState, useEffect, use } from 'react'
 import axios from 'axios'
 import { USER_TOKEN } from '@/utils/consts'
 import Cookies from 'js-cookie'
+import { DOMAIN } from '../../../utils/consts'
 
 export default function UserDashboard() {
   const [user, setUser] = useState({})
@@ -15,7 +16,7 @@ export default function UserDashboard() {
   const MatchingRegions = async (assignedRegionID) => {
     if (user && assignedRegionID) {
       const allMatchingRegionsResponse = await axios.post(
-        'http://localhost:3000/api/viewAllotedRegions',
+        `${DOMAIN}/api/viewAllotedRegions`,
         { regionIDs: assignedRegionID }
       )
       setAllMatchingRegions(allMatchingRegionsResponse.data.allMatchRegions)
@@ -25,7 +26,7 @@ export default function UserDashboard() {
   const fetchUserByToken = async (token) => {
     try {
       const user = await axios.get(
-        'http://localhost:3000/api/user/getUserByToken',
+        `${DOMAIN}/api/user/getUserByToken`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

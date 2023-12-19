@@ -20,7 +20,7 @@ const BinaryImageDisplay = ({ binaryImageData, mimeType }) => {
     setDataURL(newDataURL)
   }, [binaryImageData, mimeType])
 
-  return <img src={dataURL} width={256} height={256} alt="Binary Image" />
+  return <img src={dataURL} width={400} height={400} alt="Binary Image" />
 }
 
 export default function MonitorEachRegion({ params }) {
@@ -69,6 +69,7 @@ export default function MonitorEachRegion({ params }) {
 
   useEffect(() => {
     myFunc()
+    console.log("currentRegion ",currentRegion[0].image.data)
   }, [currentRegion])
 
   const countOccurances = (arr, num) => {
@@ -91,6 +92,11 @@ export default function MonitorEachRegion({ params }) {
     return formattedDate
   }
 
+   const bufferToBase64 = (buffer) => {
+     const binary = Buffer.from(buffer).toString('base64')
+     return `data:image/jpeg;base64,${binary}`
+   }
+
   return (
     <div className="flex flex-row overflow-x-scroll gap-y-4  gap-x-4">
       {loaded ? (
@@ -106,9 +112,8 @@ export default function MonitorEachRegion({ params }) {
               >
                 {/* <p>{data.image.data}</p> */}
                 {data.image.data.data && (
-                  // <BinaryImageDisplay binaryImageData={Uint8Array.from(data.image.data.data)} mimeType='image/jpg' />
                   <Image
-                    src="/1.png"
+                    src={bufferToBase64(data.image.data.data)}
                     width={400}
                     height={400}
                     className=" border-white border-4 border-lg"

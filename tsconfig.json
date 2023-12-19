@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","**/*.ts", "src/app/api/hardCoded/getReport/[city]/route.js", "src/app/twoOptions/newLocation/btn.jsx", "src/app/twoOptions/newLocation/page.jsx","src/dbConfig/dbConfig.ts", "src/app/ui/footer/footer.tsx", "src/app/login/page.tsx", "src/utils/decodeUser.js"],
+  "exclude": ["node_modules"]
+}

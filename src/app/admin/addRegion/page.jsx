@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
+import toast, { Toaster } from 'react-hot-toast'
 import { DOMAIN } from '../../../utils/consts'
 
 export default function UserRegistration() {
@@ -56,7 +57,7 @@ export default function UserRegistration() {
       const response = await axios.post(`${DOMAIN}/api/newRegion`, formData)
 
       if (response.data.success) {
-        console.log('Registration successful!')
+        toast.success('Successfully Registered!')
       } else {
         console.error('Registration failed:', response.data.message)
       }
@@ -67,17 +68,20 @@ export default function UserRegistration() {
 
   return (
     <div>
-      <p style={{ color: '#323643', fontSize: '1.5em', fontWeight: 'bold' }}>
-        Region Registration
-      </p>
+      <Toaster />
       <form
         onSubmit={handleRegistration}
-        className="flex flex-col gap-y-4 nform"
+        className="flex flex-col gap-y-5 backdrop-blur-sm bg-white/30 px-10 py-4 rounded-lg"
       >
+        <p className="text-gray-200 text-3xl font-semibold text-center">
+          Region Registration
+        </p>
         {!firstStep ? (
           <>
-            <div className="flex flex-row nform-input">
-              <label htmlFor="password">Region</label>
+            <div className="flex flex-row  text-sm bg-black/40">
+              <label className="p-2 text-white" htmlFor="password">
+                Region
+              </label>
               <input
                 type="text"
                 id="regionID"
@@ -89,190 +93,28 @@ export default function UserRegistration() {
               />
             </div>
 
-            <div className="flex flex-row nform-input">
-              <label htmlFor="username">Name</label>
+            <div className="flex flex-row  text-sm bg-black/40">
+              <label className="p-2 text-white" htmlFor="username">
+                State
+              </label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="state"
+                name="state"
+                value={formData.state}
                 onChange={handleInputChange}
                 required
                 className="w-full outline-none transparent"
               />
             </div>
 
-            <div className="flex flex-row nform-input">
-              <label htmlFor="email">States</label>
-              <input
-                type="text"
-                id="states"
-                name="states"
-                value={formData.states}
-                onChange={handleInputChange}
-                className="w-full outline-none transparent"
-              />
-
-              <div
-                onClick={(e) => {
-                  stateArray.push(formData.states)
-                  console.log(stateArray)
-                  setStateArray([...stateArray])
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    states: '',
-                  }))
-                }}
-                style={{ padding: '8px', cursor: 'pointer' }}
-              >
-                <Image src="/add.svg" width={24} height={24} />
-              </div>
-            </div>
-
-            {stateArray.length > 0 && (
-              <div
-                className="w-full flex flex-row gap-x-3"
-                style={{ padding: '2px' }}
-              >
-                {stateArray.map((element, key) => {
-                  return (
-                    <div
-                      key={key}
-                      className="block"
-                      style={{
-                        fontSize: '0.7em',
-                        backgroundColor: 'rgba(109, 242, 242,0.4)',
-                        padding: '4px',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      {element}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-
-            <div className="flex flex-row nform-input">
-              <label htmlFor="email">Countries</label>
-              <input
-                type="text"
-                id="countries"
-                name="countries"
-                value={formData.countries}
-                onChange={handleInputChange}
-                className="w-full outline-none transparent"
-              />
-
-              <div
-                onClick={(e) => {
-                  countryArray.push(formData.countries)
-                  setCountryArray([...countryArray])
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    countries: '',
-                  }))
-                }}
-                style={{ padding: '8px', cursor: 'pointer' }}
-              >
-                <Image src="/add.svg" width={24} height={24} />
-              </div>
-            </div>
-
-            {countryArray.length > 0 && (
-              <div
-                className="w-full flex flex-row gap-x-3"
-                style={{ padding: '2px' }}
-              >
-                {countryArray.map((element, key) => {
-                  return (
-                    <div
-                      key={key}
-                      className="block"
-                      style={{
-                        fontSize: '0.7em',
-                        backgroundColor: 'rgba(109, 242, 242,0.4)',
-                        padding: '4px',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      {element}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-
-            <div className="flex flex-row nform-input">
-              <label htmlFor="password">Area</label>
+            <div className="flex flex-row  text-sm bg-black/40">
+              <label className="p-2 text-white">Area</label>
               <input
                 type="text"
                 id="area"
                 name="area"
                 value={formData.area}
-                onChange={handleInputChange}
-                required
-                className="w-full outline-none transparent"
-              />
-            </div>
-
-            <div className="text-bold text-lg w-full">Thresholds</div>
-            <div className="flex flex-row nform-input">
-              <label>Road</label>
-              <input
-                type="text"
-                id="roads"
-                name="roads"
-                value={formData.roads}
-                onChange={handleInputChange}
-                required
-                className="w-full outline-none transparent"
-              />
-            </div>
-            <div className="flex flex-row nform-input">
-              <label>Building</label>
-              <input
-                type="text"
-                id="bulding"
-                name="bulding"
-                value={formData.buildings}
-                onChange={handleInputChange}
-                required
-                className="w-full outline-none transparent"
-              />
-            </div>
-            <div className="flex flex-row nform-input">
-              <label>Vehicle</label>
-              <input
-                type="text"
-                id="vehicles"
-                name="vehicles"
-                value={formData.vehicles}
-                onChange={handleInputChange}
-                required
-                className="w-full outline-none transparent"
-              />
-            </div>
-            <div className="flex flex-row nform-input">
-              <label>Aircraft</label>
-              <input
-                type="text"
-                id="aircraft"
-                name="aircraft"
-                value={formData.aircraft}
-                onChange={handleInputChange}
-                required
-                className="w-full outline-none transparent"
-              />
-            </div>
-
-            <div className="flex flex-row nform-input">
-              <label htmlFor="password">Length</label>
-              <input
-                type="text"
-                id="length"
-                name="length"
-                value={formData.length}
                 onChange={handleInputChange}
                 required
                 className="w-full outline-none transparent"
@@ -287,8 +129,10 @@ export default function UserRegistration() {
               <div className="line w-full"></div>
             </div>
 
-            <div className="flex flex-row nform-input">
-              <label htmlFor="deptusername">Name</label>
+            <div className="flex flex-row  text-sm bg-black/40">
+              <label className="p-2 text-white" htmlFor="deptusername">
+                Name
+              </label>
               <input
                 type="text"
                 id="deptusername"
@@ -299,8 +143,10 @@ export default function UserRegistration() {
               />
             </div>
 
-            <div className="flex flex-row nform-input">
-              <label htmlFor="deptemail">Email</label>
+            <div className="flex flex-row  text-sm bg-black/40">
+              <label className="p-2 text-white" htmlFor="deptemail">
+                Email
+              </label>
               <input
                 type="text"
                 id="deptemail"
@@ -363,7 +209,7 @@ export default function UserRegistration() {
           ) : (
             <>
               <div
-                className="nform-send login-send text-center"
+                className="bg-black/50 hover:scale-110 duration-300 transition-all px-14 rounded-lg py-3 text-gray-200 mx-auto"
                 onClick={(e) => {
                   doneFirstStep(true)
                 }}

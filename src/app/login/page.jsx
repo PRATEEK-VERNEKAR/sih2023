@@ -113,7 +113,7 @@ export default function LoginForm() {
           expires: expirationDate,
         })
 
-        toast.success('Successfully Login!')
+        toast.success('Successfully Logined!')
         let userDashBoardURL = `/user/allocated_regions`
         console.log(secondFormData)
         router.push(userDashBoardURL)

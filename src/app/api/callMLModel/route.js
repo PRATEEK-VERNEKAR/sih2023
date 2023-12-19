@@ -15,7 +15,7 @@ export async function GET(req,res){
         const allMonitorRegions=await MonitorModel.find({});
         const allRegisteredRegions=await Border.find({});
         console.log(allRegisteredRegions);
-        // await disconnect()
+        await disconnect()
 
         const alertRegionID=[];
 
@@ -74,7 +74,25 @@ export async function GET(req,res){
             }
         }
 
+        const newAllMonitorRegions=await MonitorModel.find({});
         
+        for(const newSingleRegion of newAllMonitorRegions){
+            // const imageDataArray=newSingleRegion['imageData']
+            // const image1=imageDataArray.find((tempImage)=>tempImage.dateTime==="2016").output.data
+            // const image2=imageDataArray.find((tempImage)=>tempImage.dateTime==="2020").output.data
+
+            // console.log("image1 :- ",image1);
+            // console.log("image2 :- ",image2);
+
+            const image1=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2016"}).output;
+            const image2=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2020"}).output;
+
+
+            console.log(image1);
+
+            const changeModelResponse = await axios.post("http://localhost:8080/generate_heatmap",{image1,image2})
+        }
+
 
 
         return NextResponse.json({"message":"Objects Predicted Successfully"});

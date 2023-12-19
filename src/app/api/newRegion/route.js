@@ -5,9 +5,9 @@ import { NextResponse } from "next/server";
 export async function POST(req,res){
     try{
         await connect();
-        const {regionID,name,states,neighborCountry,area,borderLength,govtBodies}=await req.json();
+        const {regionID,name,states,neighborCountry,area,borderLength,govtBodies,aircrafts,buildings,roads,vehicles}=await req.json();
         
-        const newRegion=new Border({regionID,name,states,neighborCountry,area,borderLength,govtBodies});
+        const newRegion=new Border({regionID,name,states,neighborCountry,area,borderLength,govtBodies,threshold:[buildings,0,roads,vehicles,0,aircrafts]});
 
         console.log(govtBodies);
         // console.log("\n\nINDIA\n\n");

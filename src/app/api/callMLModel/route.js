@@ -1,4 +1,5 @@
 import MonitorModel from "../../../models/moniteringModel";
+import Border from "@/models/borderModel";
 import {connect,disconnect} from "../../../dbConfig/dbConfig";
 import { NextResponse } from 'next/server'
 import axios from 'axios';
@@ -12,6 +13,8 @@ export async function GET(req,res){
 
         await connect();
         const allMonitorRegions=await MonitorModel.find({});
+        const allRegisteredRegions=await Border.find({});
+        console.log(allRegisteredRegions);
         await disconnect()
 
         for(const singleRegion of allMonitorRegions){
@@ -25,71 +28,37 @@ export async function GET(req,res){
                 });
 
                 console.log("\t\tImage ID :- ",singleImageData._id);
+
+                const countMap = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+
+                modelPrediction.data.classes.forEach((num)=>{
+                    if (countMap.hasOwnProperty(num)) {
+                        countMap[num]++
+                    }
+                })
+
+                console.log(countMap);
+
+                const countMapArray = Object.values(countMap)
                 
+                console.log("countMapArray :- ",countMapArray)
+
                 const updatedImageData=await MonitorModel.updateOne(
                     {"_id":singleRegion._id,"imageData._id":singleImageData._id},
-                    {$set:{"imageData.$.classes":modelPrediction.data.classes,"imageData.$.predicted":true}}    
+                    {$set:{"imageData.$.classes":countMapArray,"imageData.$.predicted":true}}    
                 )
 
-                console.log(updatedImageData);
+                
+                
+
+                console.log("updatedImageData :- ",updatedImageData);
 
                 // await delay(10000);
             }
         }
+
+
         
-        // let PredictionArray=[];
-        // allMonitorRegions.forEach((singleRegion)=>{
-        //     const imageData=singleRegion['imageData'];
-        //     imageData.forEach(async (singleImageData)=>{
-        //         // const modelPrediction = await fetch("http://localhost:8080/predict",{
-        //         //     method:"POST",
-        //         //     header:{"Content-Type":'application/json'},
-        //         //     body:JSON.stringify({image:singleImageData.image.data})
-        //         // })
-
-        //         const regionID=singleRegion.regionID;
-
-        //         console.log(regionID);
-
-        //         const modelPrediction = await axios.post('http://localhost:8080/predict', {
-        //             image: singleImageData.image.data
-        //         });
-
-
-        //         console.log(modelPrediction.data)
-
-        //         const modifiedImageData=await MonitorModel.updateOne(
-        //             {"_id":singleRegion._id,"imageData._id":singleImageData._id},
-        //             {$set:{"imageData.$.classes":modelPrediction.data.classes,"imageData.$.predicted":true}}
-        //         );
-
-        //         // PredictionArray.push(modelPrediction.data);
-        //     })
-        // })
-
-        // console.log(PredictionArray)
-        // return NextResponse.json({"HI":"MSG"},{status:200});
-
-
-        // await Promise.all(allMonitorRegions.map(async (singleRegion)=>{
-        //     const imageData=singleRegion['imageData'];
-
-        //     console.log("FOR region ",singleRegion.regionID)
-            
-        //     await Promise.all(imageData.map(async (singleImageData)=>{
-        //         const modelPrediction=await axios.post('http://localhost:8080/predict',{
-        //             image:singleImageData.image.data
-        //         });
-        //         console.log("\t\tImage ID :- ",singleImageData._id);
-        //         const updatedImageData=await MonitorModel.updateOne(
-        //             {"_id":singleRegion._id,"imageData._id":singleImageData._id},
-        //             {$set:{"imageData.$.classes":modelPrediction.data.classes,"imageData.$.predicted":true}}
-        //         )
-
-        //         console.log(updatedImageData);
-        //     }))
-        // }))
-
 
 
         return NextResponse.json({"message":"Objects Predicted Successfully"});

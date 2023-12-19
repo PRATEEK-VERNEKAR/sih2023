@@ -9,6 +9,7 @@ export async function POST(req, res) {
     await connect()
 
     const { regionID } = await req.json()
+    console.log("regionId",regionID)
     const normalImagesRes = await Border.find({ regionID }, { normalImages: 1 })
 
     console.log(normalImagesRes[0]['normalImages'].length)
@@ -18,12 +19,9 @@ export async function POST(req, res) {
     for (const singleImage of normalImages) {
       console.log(singleImage._id)
 
-      await connect();
 
-      const {regionID}=await req.json();
       const normalImagesRes=await Border.find({regionID},{normalImages:1});
 
-      await disconnect()
 
       const modelPrediction = await axios.post(
         'http://localhost:8080/predict',
@@ -32,18 +30,19 @@ export async function POST(req, res) {
         }
       )
 
-      console.log(modelPrediction.data.classes)
+      console.log("model classes",modelPrediction.data.classes)
 
-      const updatedImageData = await Border.updateOne(
+    await Border.updateOne(
         { regionID: regionID, 'normalImages._id': singleImage._id },
         { $set: { 'normalImages.$.classes': modelPrediction.data.classes } }
       )
     }
 
+    console.log("border updated")
+
     const getClasses = await Border.find({ regionID }).select(
       'normalImages.classes'
     )
-    await disconnect()
 
     const countMap = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
 
@@ -68,11 +67,14 @@ export async function POST(req, res) {
 
     console.log(threshold)
 
-    const updateThreshold = await Border.findOneAndUpdate(
+   await Border.findOneAndUpdate(
       { regionID },
       { $set: { threshold: threshold } }
     )
 
+    console.log("thershold updated")
+
+    await disconnect()
 
     return NextResponse.json({ message: 'Thresholds Predicted Successfully' })
   } catch (err) {

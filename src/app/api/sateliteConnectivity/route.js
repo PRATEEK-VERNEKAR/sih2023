@@ -10,10 +10,13 @@ export async function POST(req){
         const data=await req.formData();
         const image=data.get('image');
         const regionID = data.get('regionID');
+        const fileName = data.get('fileName');
         
         const checkBorderPresent=await Border.findOne({regionID});
 
         console.log(checkBorderPresent)
+
+        console.log("\n\nFileName :- ",fileName,"\n\n");
 
         if(!checkBorderPresent){
             return NextResponse.json({message:"Region Not registered to be monitered"},{status:403});
@@ -27,8 +30,8 @@ export async function POST(req){
         
         console.log(buffer)
         
-        const path=`./public/${image.name}`
-        await writeFile(path,buffer);
+        // const path=`./public/${image.name}`
+        // await writeFile(path,buffer);
         
     
         const checkIfPresentMonitor=await MonitorModel.findOne({regionID})
@@ -39,7 +42,7 @@ export async function POST(req){
                 regionID:regionID,
                 startDateTime:Date.now(),
                 imageData:[{
-                    dateTime:Date.now(),
+                    dateTime:fileName,
                     image:{
                         data:buffer,
                         contentType:"image/jpg"
@@ -54,7 +57,7 @@ export async function POST(req){
         else{
             console.log("\n\nelse\n\n")
 
-            const updateImageData={dateTime:Date.now(),image:{data:buffer,contentType:"image/jpg"},predicted:false}
+            const updateImageData={dateTime:fileName,image:{data:buffer,contentType:"image/jpg"},predicted:false}
 
             console.log(updateImageData)
             // console.log("\n\n\n\n")

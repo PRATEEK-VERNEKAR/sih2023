@@ -54,23 +54,27 @@ export async function GET(req,res){
                 
                     const updatedImageData=await MonitorModel.updateOne(
                         {"_id":singleRegion._id,"imageData._id":singleImageData._id},
-                        {$set:{"imageData.$.classes":countMapArray,"imageData.$.predicted":true}}    
+                        {$set:{"imageData.$.classes":countMapArray,
+                        "imageData.$.predicted":true,
+                        "imageData.$.output.data":modelPrediction.data.result,
+                        "imageData.$.sent":false}}    
                     )
-                    
+
                     console.log("updatedImageData :- ",updatedImageData);
                 
-                    for(let i=0;i<6;i++){
-                        if(countMap[i]>tempThreshold[i]){
-                            alertRegionID.push(singleRegion.regionID);
-                        }
-                    }
+                    // for(let i=0;i<6;i++){
+                    //     if(countMap[i]>tempThreshold[i]){
+                    //         alertRegionID.push(singleRegion.regionID);
+                    //     }
+                    // }
                     
-                    console.log(alertRegionID)
+                    // console.log(alertRegionID)
                 }
                 // await delay(10000);
             }
         }
 
+        
 
 
         return NextResponse.json({"message":"Objects Predicted Successfully"});

@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
+import {DOMAIN} from '../../../utils/consts'
 
 export default function UserRegistration() {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ export default function UserRegistration() {
     formData['govtBodies'] = data
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/newRegion',
+        `${DOMAIN}/api/newRegion`,
         formData
       )
 

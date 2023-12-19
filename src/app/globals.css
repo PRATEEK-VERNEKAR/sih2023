@@ -40,7 +40,7 @@
 
 body{
   color: rgb(var(--foreground-rgb));
-  background-color: #6064707a;
+  background-color: black;
   background-image: url(/world.svg);
 }
 

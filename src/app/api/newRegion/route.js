@@ -9,8 +9,7 @@ export async function POST(req,res){
         
         const newRegion=new Border({regionID,name,states,neighborCountry,area,borderLength,govtBodies,threshold:[buildings,0,roads,vehicles,0,aircrafts]});
 
-        console.log(govtBodies);
-        // console.log("\n\nINDIA\n\n");
+
         const savedNewRegion = await newRegion.save()
 
         await disconnect()

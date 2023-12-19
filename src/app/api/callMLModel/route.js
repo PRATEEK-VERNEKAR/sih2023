@@ -72,6 +72,7 @@ export async function GET(req,res){
         }
 
 
+
         return NextResponse.json({"message":"Objects Predicted Successfully"});
     }
     catch(err){

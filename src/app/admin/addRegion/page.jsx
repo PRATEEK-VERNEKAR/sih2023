@@ -335,9 +335,10 @@ export default function UserRegistration() {
                 className="w-full flex flex-row gap-x-3 gap-y-2 flex-wrap"
                 style={{ padding: '2px' }}
               >
-                {dept.map((element) => {
+                {dept.map((element, key) => {
                   return (
                     <div
+                      key={key}
                       className="block"
                       style={{
                         fontSize: '0.7em',

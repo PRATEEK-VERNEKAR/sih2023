@@ -65,6 +65,7 @@ export default function MonitorEachRegion({ params }) {
         }
       )
       const regionInfo = monitoredRegionInfo.data.completeInfo.imageData
+      console.log("regionInfo is",regionInfo)
       setLoaded(true)
       setCurrentRegion(regionInfo)
     } catch (error) {
@@ -234,7 +235,7 @@ export default function MonitorEachRegion({ params }) {
                   </div>
                 </div>
               </div>
-              {/* <div className="flex flex-col space-y-3">
+              <div className="flex flex-col space-y-3">
                 <button
                   className="px-4 py-2 text-gray-100 font-bold"
                   onClick={handleShowReport}
@@ -242,7 +243,7 @@ export default function MonitorEachRegion({ params }) {
                   Show Report Data
                 </button>
                 {showReport && <Graphs data={reportData} />}
-              </div> */}
+              </div>
             </div>
           )
         })

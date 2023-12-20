@@ -11,16 +11,27 @@ const moniteringModelSchema=mongoose.Schema({
     "imageData":[
         {
             "dateTime":{
-                type:Date
+                type:String
             },
             "image":{
                 data:Buffer,
                 contentType:String
             },
+            "output":{
+                data:Buffer,
+                contentType:String
+            },
             "classes":[Number],
-            "predicted":Boolean
+            "predicted":Boolean,
+            "sent":Boolean
         }
-    ]
+    ],
+    "outputHeatImg":{
+        "image":{
+            data:Buffer,
+            contentType:String
+        }
+    }
 })
 
 const MonitorModel=mongoose.models.monitormodels || mongoose.model('monitormodels',moniteringModelSchema);

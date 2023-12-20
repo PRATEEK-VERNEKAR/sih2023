@@ -14,19 +14,19 @@ export async function GET(req,res){
         await connect();
         const allMonitorRegions=await MonitorModel.find({});
         const allRegisteredRegions=await Border.find({});
-        console.log(allRegisteredRegions);
-        await disconnect()
+        // console.log(allRegisteredRegions);
+        // await disconnect()
 
-        const alertRegionID=[];
+        // const alertRegionID=[];
 
         for(const singleRegion of allMonitorRegions){
             const imageData=singleRegion['imageData'];
 
             console.log("For region ",singleRegion.regionID);
 
-            const singleRegisteredRegion=allRegisteredRegions.filter((item)=>{return item.regionID===singleRegion.regionID});
-            const tempThreshold=singleRegisteredRegion[0].threshold;
-            console.log(tempThreshold);
+            // const singleRegisteredRegion=allRegisteredRegions.filter((item)=>{return item.regionID===singleRegion.regionID});
+            // const tempThreshold=singleRegisteredRegion[0].threshold;
+            // console.log(tempThreshold);
 
 
             for(const singleImageData of imageData){
@@ -51,49 +51,58 @@ export async function GET(req,res){
                     const countMapArray = Object.values(countMap)
                     
                     console.log("countMapArray :- ",countMapArray)
+
+                    console.log(modelPrediction.data);
+                    console.log(singleRegion._id);
+                    console.log(singleImageData._id);
                 
                     const updatedImageData=await MonitorModel.updateOne(
                         {"_id":singleRegion._id,"imageData._id":singleImageData._id},
-                        {$set:{"imageData.$.classes":countMapArray,
+                        {$set:{
+                        "imageData.$.classes":countMapArray,
                         "imageData.$.predicted":true,
                         "imageData.$.output.data":modelPrediction.data.result,
-                        "imageData.$.sent":false}}    
+                        "imageData.$.sent":false
+                    }}    
                     )
 
+                    
                     console.log("updatedImageData :- ",updatedImageData);
                 
-                    // for(let i=0;i<6;i++){
-                    //     if(countMap[i]>tempThreshold[i]){
-                    //         alertRegionID.push(singleRegion.regionID);
-                    //     }
-                    // }
                     
-                    // console.log(alertRegionID)
                 }
-                // await delay(10000);
             }
         }
 
-        const newAllMonitorRegions=await MonitorModel.find({});
+        // const newAllMonitorRegions=await MonitorModel.find({});
         
-        for(const newSingleRegion of newAllMonitorRegions){
-            // const imageDataArray=newSingleRegion['imageData']
-            // const image1=imageDataArray.find((tempImage)=>tempImage.dateTime==="2016").output.data
-            // const image2=imageDataArray.find((tempImage)=>tempImage.dateTime==="2020").output.data
+        // // for(const newSingleRegion of newAllMonitorRegions){
+        // //     // const imageDataArray=newSingleRegion['imageData']
+        // //     // const image1=imageDataArray.find((tempImage)=>tempImage.dateTime==="2016").output.data
+        // //     // const image2=imageDataArray.find((tempImage)=>tempImage.dateTime==="2020").output.data
 
-            // console.log("image1 :- ",image1);
-            // console.log("image2 :- ",image2);
+        // //     // console.log("image1 :- ",image1);
+        // //     // console.log("image2 :- ",image2);
 
-            const image1=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2016"}).output;
-            const image2=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2020"}).output;
-
-
-            console.log(image1);
-
-            const changeModelResponse = await axios.post("http://localhost:8080/generate_heatmap",{image1,image2})
-        }
+        // //     const image1=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2016"}).output;
+        // //     const image2=newSingleRegion.imageData.find((tempImage)=>{return tempImage.dateTime==="2020"}).output;
 
 
+        // //     // console.log(image1);
+            
+
+        // //     const changeModelResponse = await axios.post("http://localhost:8080/generate_heatmap",{image1,image2})
+
+        // //     console.log(changeModelResponse);
+        // // }
+
+        // const image1=newAllMonitorRegions[0].imageData.find((tempImage)=>{return tempImage.dateTime==="2016"}).output;
+        // const image2=newAllMonitorRegions[0].imageData.find((tempImage)=>{return tempImage.dateTime==="2020"}).output;
+        // const changeModelResponse = await axios.post("http://localhost:8080/generate_heatmap",{image1,image2})
+
+        // console.log(changeModelResponse)
+
+        console.log("Finished");
 
         return NextResponse.json({"message":"Objects Predicted Successfully"});
     }

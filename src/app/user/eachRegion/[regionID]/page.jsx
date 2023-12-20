@@ -112,7 +112,7 @@ export default function MonitorEachRegion({ params }) {
       {loaded ? (
         currentRegion.map((data, index) => {
           return (
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4" key={index} >
               <div
                 key={index}
                 className="flex flex-col min-w-[400px] min-h-[400px] gap-y-3 bg-white/20 backdrop-blur-md shadow-xl px-4 py-4 rounded-xl "
@@ -234,7 +234,7 @@ export default function MonitorEachRegion({ params }) {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col space-y-3">
+              {/* <div className="flex flex-col space-y-3">
                 <button
                   className="px-4 py-2 text-gray-100 font-bold"
                   onClick={handleShowReport}
@@ -242,7 +242,7 @@ export default function MonitorEachRegion({ params }) {
                   Show Report Data
                 </button>
                 {showReport && <Graphs data={reportData} />}
-              </div>
+              </div> */}
             </div>
           )
         })

@@ -24,8 +24,8 @@ export async function GET(request,content){
         }
 
         const completeInfo=await MonitorModel.findOne({regionID});
-        console.log(typeof(completeInfo))
-        await disconnect();
+        console.log(completeInfo)
+        // await disconnect();
 
         return NextResponse.json({completeInfo},{status:200})
     }

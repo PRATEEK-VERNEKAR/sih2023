@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import LineGraph from '@/components/graphs/LineGraph'
+import LineGraph from '../../components/graphs/linegraph'
 
 const mockData = {
   2023: {

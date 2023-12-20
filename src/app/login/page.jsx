@@ -127,7 +127,6 @@ export default function LoginForm() {
   return (
     <div>
       <Toaster />
-      {/* <h1 className='text-white '>Urban Insights</h1> */}
       {!firstStepDone ? (
         <div>
           <form
@@ -163,7 +162,7 @@ export default function LoginForm() {
                 value={firstFormData.password}
                 onChange={handleInputChange}
                 required
-                className="w-full outline-none transparent px-2"
+                className="w-full outline-none transparent px-2 text-black"
               />
             </div>
 
@@ -201,7 +200,7 @@ export default function LoginForm() {
                 value={firstFormData.deptpassword}
                 onChange={handleInputChange}
                 required
-                className="w-full outline-none transparent px-2"
+                className="w-full outline-none transparent px-2 text-black"
               />
             </div>
 
@@ -211,7 +210,7 @@ export default function LoginForm() {
             >
               ** Are you{' '}
               <a
-                href="/login/adminLogin"
+                href="/admin/login"
                 className="color-btn"
                 style={{ textDecoration: 'underline', fontWeight: 'bold' }}
               >
@@ -245,7 +244,7 @@ export default function LoginForm() {
                     setOTP(e.target.value)
                   }}
                   required
-                  className="w-full outline-none transparent"
+                  className="w-full outline-none transparent "
                 />
               </div>
               {seconds < 60 ? (

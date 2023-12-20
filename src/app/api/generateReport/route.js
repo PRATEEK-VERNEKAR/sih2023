@@ -7,9 +7,10 @@ export async function POST(req,res){
     await connect();
     const reqBody = await req.json();
     const {regionID} = reqBody;
+    console.log("regionId is",regionID);
+    
     const changes = await MonitorModel.findOne({regionID:regionID});
     
-    console.log(changes);
 
     const dateTimePairs = {};
 
@@ -21,7 +22,6 @@ export async function POST(req,res){
     };
     });
 
-    console.log(dateTimePairs['2016'].classes);
 
     return NextResponse.json(dateTimePairs);
 }

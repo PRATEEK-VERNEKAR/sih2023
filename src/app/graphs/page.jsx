@@ -2,7 +2,6 @@
 
 import React from 'react'
 import LineGraph from '../../components/graphs/linegraph'
-
 const mockData = {
   2023: {
     classes: [10, 20, 15, 30, 25],
@@ -20,6 +19,7 @@ const mockData = {
     classes: [17, 23, 28, 35, 40],
   },
 }
+
 
 const Graphs = () => {
   return (

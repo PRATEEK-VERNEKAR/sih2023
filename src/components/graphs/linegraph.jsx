@@ -14,6 +14,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const LineGraph = ({ data }) => {
   const indices = data[Object.keys(data)[0]].classes.length // Get the number of indices
+  // const indices = Object.keys(data).length
   const lineGraphs = []
 
   const classMappings = {

@@ -28,11 +28,6 @@ export default function MonitorEachRegion({ params }) {
     borderRadius: '8px',
     columnGap: '4px',
   }
-  const parm1 = {
-    backgroundColor: '#323643',
-    borderRadius: '8px',
-    padding: '4px',
-  }
 
   const [loaded, setLoaded] = useState(false)
 
@@ -55,6 +50,7 @@ export default function MonitorEachRegion({ params }) {
   }
 
   const myFunc = async () => {
+ 
     try {
       const monitoredRegionInfo = await axios.get(
         `${DOMAIN}/api/monitorEachRegion/${params.regionID}`,
@@ -65,7 +61,7 @@ export default function MonitorEachRegion({ params }) {
         }
       )
       const regionInfo = monitoredRegionInfo.data.completeInfo.imageData
-      console.log("regionInfo is",regionInfo)
+
       setLoaded(true)
       setCurrentRegion(regionInfo)
     } catch (error) {
@@ -84,7 +80,7 @@ export default function MonitorEachRegion({ params }) {
 
   const countOccurances = (arr, num) => {
     return arr.filter((temp) => {
-      return +temp.$numberDecimal === num
+      return temp == num
     }).length
   }
 
@@ -107,148 +103,177 @@ export default function MonitorEachRegion({ params }) {
     return `data:image/jpeg;base64,${binary}`
   }
 
+  const mockData = {
+    2023: {
+      classes: [10, 20, 15, 30, 25],
+    },
+    2022: {
+      classes: [5, 15, 10, 25, 20],
+    },
+    2021: {
+      classes: [12, 18, 22, 28, 30],
+    },
+    2020: {
+      classes: [8, 13, 16, 20, 24],
+    },
+    2019: {
+      classes: [17, 23, 28, 35, 40],
+    },
+  }
+
   return (
-    <div className="flex flex-row overflow-x-scroll gap-y-4  gap-x-4">
+    <div className="flex flex-col max-w-[95%]">
       <Toaster />
-      {loaded ? (
-        currentRegion.map((data, index) => {
-          return (
-            <div className="flex flex-col space-y-4" key={index} >
-              <div
-                key={index}
-                className="flex flex-col min-w-[400px] min-h-[400px] gap-y-3 bg-white/20 backdrop-blur-md shadow-xl px-4 py-4 rounded-xl "
-                style={{
-                  borderRadius: '8px',
-                }}
-              >
-                {/* <p>{data.image.data}</p> */}
-                {data.image.data.data && (
-                  <Image
-                    src={bufferToBase64(data.image.data.data)}
-                    width={400}
-                    height={400}
-                    className=" border-white border-4 border-lg"
-                  />
-                )}
-                <div className="text-white font-semibold">
-                  {toLocalTime(data.dateTime)}
-                </div>
+      <div className="flex flex-row overflow-x-scroll gap-y-4 items-center justify-center w-full px-8 ">
+        {loaded ? (
+          currentRegion.map((data, index) => {
+            return (
+              <div className="ml-4" key={index}>
                 <div
-                  className="grid grid-cols-3 flex-wrap justify-between gap-x-2 gap-y-2"
-                  style={{ padding: '8px' }}
+                  key={index}
+                  className="flex flex-col min-w-[400px] min-h-[400px] gap-y-3 bg-white/20 backdrop-blur-md shadow-xl px-4 py-4 rounded-xl "
+                  style={{
+                    borderRadius: '8px',
+                  }}
                 >
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/aircraft.svg"
-                        width={50}
-                        height={50}
-                        className="block"
-                        alt="Aircraft"
-                      />
-                    </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 0)}
-                      </span>
-                    </div>
+                  {/* <p>{data.image.data}</p> */}
+                  {data.image.data.data && (
+                    <Image
+                      src={bufferToBase64(data.image.data.data)}
+                      width={400}
+                      height={400}
+                      className=" border-white border-4 border-lg"
+                    />
+                  )}
+                  <div className="text-white font-semibold">
+                    {toLocalTime(data.dateTime)}
                   </div>
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/building.svg"
-                        width={50}
-                        height={50}
-                        alt="Aircraft"
-                        className="block"
-                      />
+                  <div
+                    className="grid grid-cols-3 flex-wrap justify-between gap-x-2 gap-y-2"
+                    style={{ padding: '8px' }}
+                  >
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/building.svg"
+                          width={50}
+                          height={50}
+                          alt="Aircraft"
+                          className="block"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 0)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 1)}
-                      </span>
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/grounds.svg"
+                          width={50}
+                          height={50}
+                          alt="Aircraft"
+                          className="block"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 1)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/grounds.svg"
-                        width={50}
-                        height={50}
-                        alt="Aircraft"
-                        className="block"
-                      />
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/road.svg"
+                          width={50}
+                          height={50}
+                          alt="Aircraft"
+                          className="block"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 2)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 2)}
-                      </span>
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/vehicle.svg"
+                          width={50}
+                          height={50}
+                          alt="Aircraft"
+                          className="block"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 3)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/road.svg"
-                        width={50}
-                        height={50}
-                        alt="Aircraft"
-                        className="block"
-                      />
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/water.svg"
+                          width={50}
+                          height={50}
+                          alt="Aircraft"
+                          className="block"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 4)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 3)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/vehicle.svg"
-                        width={50}
-                        height={50}
-                        alt="Aircraft"
-                        className="block"
-                      />
-                    </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 4)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-row" style={{ ...pram }}>
-                    <div className="flex flex-row items-center justify-center bg-white">
-                      <Image
-                        src="/water.svg"
-                        width={50}
-                        height={50}
-                        alt="Aircraft"
-                        className="block"
-                      />
-                    </div>
-                    <div className="flex flex-row items-center">
-                      <span className="block text-white">
-                        {countOccurances(data.classes, 5)}
-                      </span>
+                    <div className="flex flex-row" style={{ ...pram }}>
+                      <div className="flex flex-row items-center justify-center bg-white">
+                        <Image
+                          src="/aircraft.svg"
+                          width={50}
+                          height={50}
+                          className="block"
+                          alt="Aircraft"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="block text-white">
+                          {countOccurances(data.classes, 5)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col space-y-3">
-                <button
-                  className="px-4 py-2 text-gray-100 font-bold"
-                  onClick={handleShowReport}
-                >
-                  Show Report Data
-                </button>
-                {showReport && <Graphs data={reportData} />}
-              </div>
+            )
+          })
+        ) : (
+          <Loading />
+        )}
+      </div>
+
+      {loaded && (
+        <div className="flex flex-col space-y-3 w-full">
+          {!showReport ? (
+            <button
+              className="px-4 py-2 text-gray-100 font-bold max-w-[300px] mx-auto bg-black border-2 border-solid border-white"
+              onClick={handleShowReport}
+              // onClick={() => setShowReport(true)}
+            >
+              Show Report Data
+            </button>
+          ) : (
+            <div className=" flex flex-row gap-5 items-center justify-center">
+              {showReport && <Graphs data={mockData} />}
             </div>
-          )
-        })
-      ) : (
-        <Loading />
+          )}
+        </div>
       )}
     </div>
   )
